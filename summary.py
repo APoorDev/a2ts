@@ -80,7 +80,9 @@ def summary(url, typ):
 
     # Transcribe video with whisper
     print("Transcribing audio with whisper...")
-    text = openai.Audio.transcribe("whisper-1","audio.mp3")
+    audio_file = open("audio.mp3", "rb")
+    text = openai.Audio.transcribe("whisper-1",audio_file)
+    audio_file.close()
     textstr = text["text"]
     with open("transcript.txt", "w") as f:
         f.write(textstr)
