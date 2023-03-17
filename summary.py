@@ -27,6 +27,7 @@ def summary(url):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
+        'quiet': True,
         'outtmpl': 'audio.%(ext)s',
     }
     
@@ -40,11 +41,12 @@ def summary(url):
         f.write(textstr)
         f.close()
 
-    print(generate_response(f"Provide a summary of the following \n {textstr}"))
+    print(generate_response(f"I have a text I would like to analyze. Here it is ***** {textstr} ***** Can you summarize this?"))
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python summary.py [YouTube_URL]")
+        url = input("Please provide a youtube url. \n")
+        summary(url)
     else:
         url = sys.argv[1]
         summary(url)
