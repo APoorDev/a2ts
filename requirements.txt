@@ -2,3 +2,4 @@ python-dotenv
 openai
 yt-dlp
 git+https://github.com/openai/whisper.git
+spacy
