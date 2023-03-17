@@ -1,3 +1,4 @@
+python-dotenv
 openai
-pytube
+yt-dlp
 git+https://github.com/openai/whisper.git
