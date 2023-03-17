@@ -93,6 +93,9 @@ def summary(url, typ):
     for chunk in chunks:
         chunk_summary = generate_response(" ".join(chunk), typ)
         chunk_summaries.append(chunk_summary)
+    with open("summary.txt", "w") as f:
+        f.write(" ".join(chunk_summaries))
+        f.close()
     print(" ".join(chunk_summaries))
 
 if __name__ == "__main__":
