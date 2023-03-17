@@ -1,5 +1,4 @@
 import openai
-import whisper
 import yt_dlp
 import os
 from dotenv import load_dotenv
@@ -8,7 +7,6 @@ import spacy
 from spacy.lang.en import English
 
 openai.api_key = os.getenv('OPENAI_TOKEN')
-model = whisper.load_model("base")
 nlp = spacy.load("en_core_web_sm")
 
 def let_user_pick(options):
@@ -82,7 +80,7 @@ def summary(url, typ):
 
     # Transcribe video with whisper
     print("Transcribing audio with whisper...")
-    text = model.transcribe("audio.mp3")
+    text = openai.Audio.transcribe("whisper-1","audio.mp3")
     textstr = text["text"]
     with open("transcript.txt", "w") as f:
         f.write(textstr)
