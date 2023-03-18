@@ -12,3 +12,4 @@ Install requirements
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
+You also need to set your API keys into a .env file. You can use the `.envexample` as a reference. 
