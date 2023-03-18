@@ -8,6 +8,7 @@ from spacy.lang.en import English
 
 openai.api_key = os.getenv('OPENAI_TOKEN')
 nlp = spacy.load("en_core_web_sm")
+load_dotenv()
 
 def let_user_pick(options):
     print("Please choose:")
