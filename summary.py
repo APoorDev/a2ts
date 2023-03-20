@@ -44,15 +44,15 @@ def text_to_chunks(text):
     return chunks
 
 
-def generate_response(textstr, typ):
+def generate_response(self, textstr, typ):
     if typ == "podcast":
-        prompt = f"I have a podcast I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without mentioning that its a transcript?"
+        prompt = f"I have a podcast I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
     elif typ == "lecture":
-        prompt = f"I have a video lecture I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without mentioning that its a transcript?"
+        prompt = f"I have a video lecture I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
     elif typ == "review":
-        prompt = f"I have a video review I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without mentioning that its a transcript?"
+        prompt = f"I have a video review I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
     else:
-        prompt = f"I have a video transcript I would like to analyze. Here it is ***** {textstr} ***** Can you summarize this without mentioning that its a transcript?"
+        prompt = f"I have a video transcript I would like to analyze. Here it is ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
@@ -71,7 +71,7 @@ def summary(url, typ):
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
-            'preferredquality': '192',
+            'preferredquality': '50',
         }],
         'outtmpl': 'audio.%(ext)s',
     }
