@@ -8,6 +8,7 @@ from spacy.lang.en import English
 
 openai.api_key = os.getenv('OPENAI_TOKEN')
 nlp = spacy.load("en_core_web_sm")
+load_dotenv()
 
 def let_user_pick(options):
     print("Please choose:")
@@ -93,6 +94,9 @@ def summary(url, typ):
     for chunk in chunks:
         chunk_summary = generate_response(" ".join(chunk), typ)
         chunk_summaries.append(chunk_summary)
+    with open("summary.txt", "w") as f:
+        f.write(" ".join(chunk_summaries))
+        f.close()
     print(" ".join(chunk_summaries))
 
 if __name__ == "__main__":
