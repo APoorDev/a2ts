@@ -43,7 +43,7 @@ def text_to_chunks(text):
     return chunks
 
 
-def generate_response(self, textstr, typ):
+def generate_response(textstr, typ):
     if typ == "podcast":
         prompt = f"I have a podcast I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
     elif typ == "lecture":
