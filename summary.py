@@ -1,16 +1,12 @@
-import openai
 import whisper
+from nomic.gpt4all import GPT4All
 import yt_dlp
-import os
-from dotenv import load_dotenv
 import sys
 import spacy
 from spacy.lang.en import English
 
-openai.api_key = os.getenv('OPENAI_TOKEN')
 model = whisper.load_model("base")
 nlp = spacy.load("en_core_web_sm")
-load_dotenv()
 
 def let_user_pick(options):
     print("Please choose:")
@@ -45,28 +41,15 @@ def text_to_chunks(text):
     return chunks
 
 
-def generate_response(self, textstr, typ):
-    if typ == "podcast":
-        prompt = f"I have a podcast I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
-    elif typ == "lecture":
-        prompt = f"I have a video lecture I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
-    elif typ == "review":
-        prompt = f"I have a video review I would like to analyze. Here is the transcript ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
-    else:
-        prompt = f"I have a video transcript I would like to analyze. Here it is ***** {textstr} ***** Can you summarize this without an introduction in 112 words or less?"
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        temperature=0.3,
-        max_tokens=150,  # = 112 words
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=1
-    )
-    return response["choices"][0]["text"]
+def generate_response(textstr):
+    prompt = f"I would like you to analyze a piece of text. Here it is ***** {textstr} ****** Can you summarize this without an introduction in 112 words or less?"
+    m = GPT4All()
+    m.open()
+    response = m.prompt(prompt)
+    return response
 
 
-def summary(url, typ):
+def summary(url):
     ydl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -92,7 +75,7 @@ def summary(url, typ):
     chunk_summaries = []
     chunks = text_to_chunks(textstr)
     for chunk in chunks:
-        chunk_summary = generate_response(" ".join(chunk), typ)
+        chunk_summary = generate_response(" ".join(chunk))
         chunk_summaries.append(chunk_summary)
     with open("summary.txt", "w") as f:
         f.write(" ".join(chunk_summaries))
@@ -100,14 +83,9 @@ def summary(url, typ):
     print(" ".join(chunk_summaries))
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         url = input("Please provide a youtube url. \n")
-        print("You also need to provide the type of video. ")
-        options = ['podcast', 'lecture', 'review', 'other']
-        typ = let_user_pick(options)
-
-        summary(url, typ)
+        summary(url)
     else:
         url = sys.argv[1]
-        typ = sys.argv[2]
-        summary(url, typ)
+        summary(url)
